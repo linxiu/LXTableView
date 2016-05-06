@@ -34,7 +34,7 @@
 }
 -(void)createInterface{
 
-    PictureScrollView *jView = [[PictureScrollView alloc] initWithFrame:CGRectMake(0,64, DMScreenWidth, 200)];
+    self.jView = [[PictureScrollView alloc] initWithFrame:CGRectMake(0,64, DMScreenWidth, 200)];
     
     NSArray *imgUrlArr = @[@"http://www.blisscake.cn/Upload/Product/Show/Source/ps_1507201119031647109.jpg",
                            
@@ -45,13 +45,14 @@
                            @"http://www.blisscake.cn/Upload/Product/Show/Source/ps_1507201114495822068.jpg",
                            
                            @"http://www.blisscake.cn/Upload/Product/Show/Source/ps_1507201107522493367.jpg"];
+    [self.jView configArr:imgUrlArr];
     
-    jView.arrayPic = imgUrlArr;
     NSLog(@"%@",imgUrlArr);
     
-    [self.view addSubview:jView];
+    [self.view addSubview:self.jView];
     
-    publicTableView *tableView = [[publicTableView alloc]initWithFrame:CGRectMake(0, jView.frame.origin.y+jView.frame.size.height, DMScreenWidth,DMScreenHeight-jView.frame.origin.y-jView.frame.size.height)];
+    
+    publicTableView *tableView = [[publicTableView alloc]initWithFrame:CGRectMake(0, _jView.frame.origin.y+_jView.frame.size.height, DMScreenWidth,DMScreenHeight-_jView.frame.origin.y-_jView.frame.size.height)];
     [self.view addSubview:tableView];
 
     __weak id weakSelf = self;

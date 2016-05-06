@@ -14,4 +14,6 @@
 
 @property (nonatomic,retain)NSArray *arrayPic;
 
+// 用这个
+- (void)configArr:(NSArray *)arrPic;
 @end

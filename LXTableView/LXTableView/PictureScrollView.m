@@ -12,7 +12,7 @@
 #define waitForSwitchImgMaxTime 5  //默认5秒训转图片一次,可以根据需要改变
 
 typedef NS_ENUM(NSInteger,SwitchDirection){
-
+    
     //未轮播
     
     SwitchDirectionNone = -1,
@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
     //向左轮播图片
     
     SwitchDirectionLeft = 1,
-
+    
 };
 
 @interface PictureScrollView ()<UIScrollViewDelegate>
@@ -56,14 +56,14 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
 
 
 -(id)initWithFrame:(CGRect)frame{
-
+    
     self = [super initWithFrame:frame];
     if (self) {
         
         [self createContentScrollView];
         
         [self createPageControlView];
-  
+        
         //默认第一页
         
         _currentPage = 0;
@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
         _swDirection = SwitchDirectionNone;
         
     }
-
+    
     return self;
 }
 
@@ -85,25 +85,26 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
 #pragma mark 属性
 
 -(void)createContentScrollView{
-
- UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+    
     scrollView.delegate = self;
     
     scrollView.showsHorizontalScrollIndicator = NO;
-    
+    scrollView.showsVerticalScrollIndicator = NO;
     scrollView.shouldGroupAccessibilityChildren = NO;
-    
+   
     scrollView.pagingEnabled = YES;
     
     scrollView.backgroundColor = [UIColor lightGrayColor];
+    scrollView.contentSize = CGSizeMake(DMScreenWidth * 5, 200);
     [self addSubview:scrollView];
     
     _scrollView = scrollView;
- 
+    
 }
 -(void)createPageControlView{
-
+    
     UIPageControl *pageControl = [[UIPageControl alloc] init];
     
     pageControl.frame = CGRectMake(0, 0, 80, 20);
@@ -114,17 +115,16 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
     
     pageControl.pageIndicatorTintColor = [UIColor yellowColor];
     
-    _pageControl.currentPageIndicatorTintColor = [UIColor purpleColor];
+    _pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     
     [self addSubview:pageControl];
     
     _pageControl = pageControl;
 }
 
--(void)setArrPic:(NSArray *)arrPic{
-
-    _arrayPic = [arrPic copy];
-    
+- (void)configArr:(NSArray *)arrPic
+{
+    self.arrayPic = arrPic;
     NSInteger count = arrPic.count;
     
     if (count <= 0) {
@@ -153,15 +153,18 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
     
     if (count > 1) {
         
-        for (int i=0; i< 3; i++) {//这里只使用3个ImgView轮转多张图片，数量2,3,4,5,6...
+        for (int i=0; i< 5; i++) {//这里只使用3个ImgView轮转多张图片，数量2,3,4,5,6...
             
-                   
+            
             UIImageView *imgView = [[UIImageView alloc] init];
             
+//            imgView.frame = CGRectMake(i * 375, 0, 375, 200);
             imgView.frame = CGRectMake(i * self.bounds.size.width, 0, self.bounds.size.width, self.bounds.size.height);
             
             imgView.layer.masksToBounds = YES;
             
+            
+            [self.scrollView addSubview:imgView];
             NSString *urlStr = urlStr = _arrayPic[[self switchToValue:i-1 Count:count]];
             
             NSURL *imgUrl = [NSURL URLWithString:urlStr];
@@ -216,6 +219,7 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
     }
     
 }
+
 #pragma mark 各种方法
 
 -(void)switchImg{  //5秒轮播图片
@@ -246,18 +250,18 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
         });
         
     }
-
+    
     
 }
 //value对Count取模,并保证为正值
 
 //这里很重要，是实现无限循环的重要的一步，比如现在显示的是第一张图片，_currentImgIndex=0,向左滑动后就显示_currentImgIndex+1张图片，可是_currentImgIndex+1可能回大于_imgUrlArr的数组count，这里取模，其次还要保证为正数，比如，如果向右边滑动是就显示_currentImgIndex-1张图片，
 -(NSInteger)switchToValue:(NSInteger)value Count:(NSInteger)count{
-
+    
     NSInteger result = value % count;
     
     return result >=0 ? result : result + count;
-
+    
 }
 //手动轮播图片
 -(void)switchImgByDirection:(SwitchDirection)direction
@@ -277,7 +281,7 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
 }
 //旋转图片后重新调整3个UIImageView显示的内容
 -(void)reSetImgUrlWithDirection:(SwitchDirection)direction{
-
+    
     if (direction == SwitchDirectionRight) {
         
         [_imgView1 sd_setImageWithURL:[NSURL URLWithString:_arrayPic[[self switchToValue:_currentImgIndex - 2 Count:_arrayPic.count]]] placeholderImage:nil];
@@ -304,7 +308,7 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
         _currentImgIndex = [self switchToValue:_currentImgIndex + 1 Count:_arrayPic.count];
         
     }
-
+    
 }
 #pragma mark 代理  记住滑动的方向
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -334,14 +338,14 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
     
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{  //结束
-
+    
     if (_swDirection == SwitchDirectionLeft) {  //向左轮播
         
-       _currentPage = [self switchToValue:_currentPage + 1 Count:_arrayPic.count];
+        _currentPage = [self switchToValue:_currentPage + 1 Count:_arrayPic.count];
     }else if(_swDirection == SwitchDirectionRight){
-    
-    _currentPage = [self switchToValue:_currentPage - 1 Count:_arrayPic.count];
-    
+        
+        _currentPage = [self switchToValue:_currentPage - 1 Count:_arrayPic.count];
+        
     }
     
     _pageControl.currentPage = _currentPage;
@@ -354,6 +358,6 @@ typedef NS_ENUM(NSInteger,SwitchDirection){
     
     _isDragImgView = NO;
     
-
+    
 }
 @end

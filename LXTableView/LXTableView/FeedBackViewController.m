@@ -9,6 +9,11 @@
 #import "FeedBackViewController.h"
 #import "SuggestionTextView.h"
 
+#define DMScreenWidth [UIScreen mainScreen].bounds.size.width
+#define DMScreenHeight [UIScreen mainScreen].bounds.size.height
+static const CGFloat textViewX = 15;
+static const CGFloat textViewY = 90;
+static const CGFloat textViewHeight = 500;
 
 @interface FeedBackViewController ()
 

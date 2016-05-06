@@ -184,8 +184,6 @@
 			children = (
 				A87BA1391CDC5A9C0056352E /* PublicViews */,
 				A87BA1381CDC5A8F0056352E /* FeedBackView */,
-				A87BA1371CDC5A7F0056352E /* MycollectView */,
-				A87BA1361CDC5A560056352E /* ManagerAddressView */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -273,20 +271,6 @@
 				A87BA1311CDC58C60056352E /* MyCollectViewController.m */,
 			);
 			name = Controllers;
-			sourceTree = "<group>";
-		};
-		A87BA1361CDC5A560056352E /* ManagerAddressView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ManagerAddressView;
-			sourceTree = "<group>";
-		};
-		A87BA1371CDC5A7F0056352E /* MycollectView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = MycollectView;
 			sourceTree = "<group>";
 		};
 		A87BA1381CDC5A8F0056352E /* FeedBackView */ = {

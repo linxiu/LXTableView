@@ -25,6 +25,7 @@
     if (self) {
         
         _alert = [[UIAlertView alloc] initWithTitle:@"提交成功！" message:@"感谢您的宝贵意见，我们会尽快完善产品" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
         [self createSuggestTextView];
         [self createBtn];
     }
@@ -33,9 +34,8 @@
 
 -(void)createSuggestTextView{
 
-//    UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(textViewX, textViewY, DMScreenWidth-textViewX*2, DMScreenHeight-70-textViewY)];
-    
-      UITextView *textView = [[UITextView alloc]initWithFrame:self.bounds];
+    UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width,self.frame.size.height / 8 * 7+5)];
+
     
     textView.layer.borderWidth = 0.5;
     textView.layer.borderColor = [[UIColor grayColor] CGColor];
@@ -55,7 +55,7 @@
 -(void)createBtn{
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, _suggestTextView.frame.origin.y+_suggestTextView.frame.size.height+15, DMScreenWidth-30, ButtonHeight);
+    button.frame = CGRectMake(0, self.frame.size.height / 8 * 7+20+5, self.frame.size.width, self.frame.size.height / 8);
     [button setTitle:@"提交" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor orangeColor];
